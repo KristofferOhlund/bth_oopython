@@ -74,13 +74,29 @@ class Duration:
         self.minutes += other.minutes
         self.seconds += other.seconds
 
-        # while self.seconds > 59:
-        #     self.minutes += 1
-        #     self.seconds -= 60
+        if self.seconds > 59:
+             self.minutes += 1
+             self.seconds -= 60
 
-        # while self.minutes > 59:
-        #     self.hours += 1
-        #     self.minutes -= 60
+        if self.minutes > 59:
+            self.hours += 1
+            self.minutes -= 60
+
+    def __lt__(self,other):
+        
+        self.hours < other.hours
+        self.minutes < other.minutes
+        self.seconds < other.seconds
+        
+        if self.hours < other.hours:
+            return True
+        elif self.minutes < other.minutes:
+            return True
+        elif self.seconds < other.minutes:
+            return True
+        else:
+            return False
+        
 
 
         # hours = self.hours + other.hours
@@ -99,7 +115,8 @@ class Duration:
         # self.seconds = seconds
 
 
-duration2 = Duration(36, 23, 1)
-duration3 = Duration(2, 11, 34)
+#duration2 = Duration(36, 23, 1)
+#duration3 = Duration(2, 11, 34)
 
-duration2 += duration3
+
+#duration2 += duration3

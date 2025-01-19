@@ -277,14 +277,16 @@ dbwebb.assert_equal("2.1", ANSWER, False)
 #
 
 duration3 = Duration(2, 11, 34)
-duration2 += duration3
+
+duration2.hours += duration3.hours
+duration2.minutes += duration3.minutes
+duration2.seconds += duration3.seconds
 
 
-
-ANSWER = "print(duration2)"
+ANSWER = f"{(Duration.display(duration2))}"
 
 # I will now test your answer - change false to true to get a hint.
-dbwebb.assert_equal("2.2", ANSWER, False)
+dbwebb.assert_equal("2.2", ANSWER, True)
 
 # --------------------------------------------------------------------------
 # Section 3. Extra assignments
@@ -310,7 +312,7 @@ dbwebb.assert_equal("2.2", ANSWER, False)
 
 
 
-ANSWER = "Replace this text with the variable holding the answer."
+ANSWER = duration1 < duration2
 
 # I will now test your answer - change false to true to get a hint.
 dbwebb.assert_equal("3.1", ANSWER, False)

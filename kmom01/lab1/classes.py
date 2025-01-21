@@ -70,12 +70,36 @@ class Duration:
         """Method for overloading the += operator.
         Update the sum of its own units and the other objects units, if
         minutes are higher then 60, add 1 hour, if seconds is higher then 60, add 1 minut."""
-        hours = self.hours + other.hours
-        minutes = self.minutes + other.minutes
-        seconds = self.seconds + other.seconds
+        self.hours += other.hours
+        self.minutes += other.minutes
+        self.seconds += other.seconds
 
-        while seconds % 60 != 0:
-            minutes += 1
+        # while self.seconds > 59:
+        #     self.minutes += 1
+        #     self.seconds -= 60
 
-        while minutes % 60 != 0:
-            hours += 1
+        # while self.minutes > 59:
+        #     self.hours += 1
+        #     self.minutes -= 60
+
+
+        # hours = self.hours + other.hours
+        # minutes = self.minutes + other.minutes
+        # seconds = self.seconds + other.seconds
+
+        # while seconds < 59:
+        #     minutes += 1
+
+        # while minutes > 59:
+        #     hours += 1
+
+        # # Update self
+        # self.hours = hours
+        # self.minutes = minutes
+        # self.seconds = seconds
+
+
+duration2 = Duration(36, 23, 1)
+duration3 = Duration(2, 11, 34)
+
+duration2 += duration3

@@ -277,10 +277,11 @@ dbwebb.assert_equal("2.1", ANSWER, False)
 #
 
 duration3 = Duration(2, 11, 34)
+duration2 += duration3
 
 
 
-ANSWER = "Replace this text with the variable holding the answer."
+ANSWER = "print(duration2)"
 
 # I will now test your answer - change false to true to get a hint.
 dbwebb.assert_equal("2.2", ANSWER, False)

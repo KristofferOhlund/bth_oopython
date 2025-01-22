@@ -251,8 +251,6 @@ dbwebb.assert_equal("1.8", ANSWER, False)
 duration2 = Duration(36, 23, 1)
 
 
-
-
 ANSWER = duration1 + duration2
 
 # I will now test your answer - change false to true to get a hint.
@@ -277,16 +275,13 @@ dbwebb.assert_equal("2.1", ANSWER, False)
 #
 
 duration3 = Duration(2, 11, 34)
-
-duration2.hours += duration3.hours
-duration2.minutes += duration3.minutes
-duration2.seconds += duration3.seconds
+duration2 += duration3
 
 
-ANSWER = f"{(Duration.display(duration2))}"
+ANSWER = duration2.display()
 
 # I will now test your answer - change false to true to get a hint.
-dbwebb.assert_equal("2.2", ANSWER, True)
+dbwebb.assert_equal("2.2", ANSWER, False)
 
 # --------------------------------------------------------------------------
 # Section 3. Extra assignments
@@ -306,10 +301,6 @@ dbwebb.assert_equal("2.2", ANSWER, True)
 #
 # Write your code below and put the answer into the variable ANSWER.
 #
-
-
-
-
 
 
 ANSWER = duration1 < duration2

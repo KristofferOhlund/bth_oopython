@@ -50,8 +50,8 @@ class Duration:
 
     @staticmethod
     def duration_to_sec(duration):
-        """Static method for converting a duration string in format hh-mm-ss to total 
-        number of seconds, as int."""
+        """Static method for converting a duration string in format hh-mm-ss
+        to total number of seconds, as int."""
         hh, mm, ss = duration.split("-")
         time_in_seconds = 0
         time_in_seconds += int(hh) * 3600
@@ -70,53 +70,23 @@ class Duration:
         """Method for overloading the += operator.
         Update the sum of its own units and the other objects units, if
         minutes are higher then 60, add 1 hour, if seconds is higher then 60, add 1 minut."""
+
         self.hours += other.hours
         self.minutes += other.minutes
         self.seconds += other.seconds
 
         if self.seconds > 59:
-             self.minutes += 1
-             self.seconds -= 60
+            self.minutes += 1
+            self.seconds -= 60
 
         if self.minutes > 59:
             self.hours += 1
             self.minutes -= 60
 
-    def __lt__(self,other):
-        
-        self.hours < other.hours
-        self.minutes < other.minutes
-        self.seconds < other.seconds
-        
-        if self.hours < other.hours:
-            return True
-        elif self.minutes < other.minutes:
-            return True
-        elif self.seconds < other.minutes:
-            return True
-        else:
-            return False
-        
+        return self
 
 
-        # hours = self.hours + other.hours
-        # minutes = self.minutes + other.minutes
-        # seconds = self.seconds + other.seconds
-
-        # while seconds < 59:
-        #     minutes += 1
-
-        # while minutes > 59:
-        #     hours += 1
-
-        # # Update self
-        # self.hours = hours
-        # self.minutes = minutes
-        # self.seconds = seconds
-
-
-#duration2 = Duration(36, 23, 1)
-#duration3 = Duration(2, 11, 34)
-
-
-#duration2 += duration3
+    def __lt__(self, other):
+        """Method for comparing if the duration in self is smaller then duration in other.
+        Returns Bool"""
+        return Duration.duration_to_sec(self.display()) < Duration.duration_to_sec(other.display())

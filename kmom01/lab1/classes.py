@@ -61,7 +61,7 @@ class Duration:
 
 
     def __add__(self, other):
-        """Method for overloading the + operator. 
+        """Method for overloading the + operator.
         Sums the total number of seconds of two duration objects."""
         return Duration.duration_to_sec(self.display()) + Duration.duration_to_sec(other.display())
 

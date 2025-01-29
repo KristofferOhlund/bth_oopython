@@ -3,3 +3,5 @@
 *.py[cod]
 *$py.class
 *.pyc
+*kmom02/my_app/
+*kmom02/unittest/

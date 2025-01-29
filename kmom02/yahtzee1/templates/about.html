@@ -1,0 +1,16 @@
+<!--.html filer och dynamiska filer som ska servas ska ligga i template -->
+
+{% include 'header.html' %}
+
+<div class="container" role="main">
+    <div class="page-header">
+        <h1>Välkommen till min about page</h1>
+        <p>Jag heter {{ content.name }} och det här är kursen {{ content.kurs }}</p>
+        <img src="{{url_for('static', filename='img/jag.png') }}" alt="En bild på mig" width="256px">
+        <p>Självklart har jag en fet bil, se info: Märke: {{ content.car.model }} och den kostar: {{ content.car.price }}</p>
+        <p>Jag kan även presentera min bil.. {{ content.car.present_car() }}</p>
+        
+    </div>
+</div>
+
+{% include 'footer.html' %}

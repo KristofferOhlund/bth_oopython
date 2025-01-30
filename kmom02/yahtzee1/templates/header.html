@@ -31,8 +31,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <!--argumentet i url_for pekar på funktionen i app-->
-                    <li {% if request.path=="/" %} class="active" {% endif %}><a href="{{ url_for('main') }}">Hem</a></li>
-                    <li {% if request.path=="/about" %} class="active" {% endif %}><a href="{{ url_for('about') }}">Om</a></li>
+                    <li {% if request.path=="/" %} class="active" {% endif %}><a href="{{ url_for('main') }}">Yatzee R&K</a></li>
+                    <li {% if request.path=="/about" %} class="active" {% endif %}><a href="{{ url_for('about') }}">About us</a></li>
+
                 </ul>
             </div>
         </div>

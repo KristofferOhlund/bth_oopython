@@ -1,0 +1,20 @@
+<!--.html filer och dynamiska filer som ska servas ska ligga i template -->
+
+
+{% include 'header.html' %}
+
+<div class="container" role="main">
+    <div class="page-header">
+        <h1>YAHTZEE</h1>
+        <div class="dice">
+            <!-- Visar tärningarnas värden för testning --> 
+            
+            {% for dice in hand.dice %}
+                <img src="{{ url_for('static', filename='img/' + dice.get_name() + '.png') }}" alt="Tärning" width="256px">
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% include 'footer.html' %}

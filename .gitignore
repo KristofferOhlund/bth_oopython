@@ -5,3 +5,5 @@
 *.pyc
 *kmom02/my_app/
 *kmom02/unittest/
+*kmom03/relations
+*kmom03/uml

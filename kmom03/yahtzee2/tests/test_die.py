@@ -46,3 +46,21 @@ class TestDie(unittest.TestCase):
 
         die = Die(6)
         self.assertEqual(die.get_name(), "six")
+
+    def test_die_false(self):
+        """Test if __eq__ method in Die returns False,
+        Compare Die object values"""
+
+        die = Die(1)
+        die2 = Die(2)
+
+        self.assertEqual(die == die2, False)
+
+    def test_die_true(self):
+        """Test if __eq__ method in Die returns True,
+        Compare Die object values"""
+
+        die = Die(1)
+        die2 = Die(1)
+
+        self.assertEqual(die == die2, True)

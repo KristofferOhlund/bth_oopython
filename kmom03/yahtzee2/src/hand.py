@@ -18,6 +18,7 @@ class Hand:
                 dices.append(Die(int_val))
             self.dice = dices
 
+
     def roll(self, indexes=None):
         """Rullar endast tärningar med index = index"""
         # Rullar alla tärningar
@@ -27,6 +28,15 @@ class Hand:
         else:
             for i in indexes:
                 self.dice[i].roll()
+
+
+    def to_list(self):
+        """Return a list of integers based on self.dice values"""
+        values = []
+        for dice in self.dice:
+            values.append(dice.get_value())
+        return values
+
 
     def __str__(self):
         """Returnera en komma separerad sträng med värden"""

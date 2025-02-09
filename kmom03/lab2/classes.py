@@ -83,4 +83,3 @@ class Student(Person):
 
 
 person = Person("Kristoffer", "18282882")
-print(person)

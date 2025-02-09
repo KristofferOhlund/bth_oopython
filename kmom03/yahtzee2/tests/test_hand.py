@@ -29,7 +29,7 @@ class TestDie(unittest.TestCase):
         """Test if hand """
         hand = Hand([1, 2, 3, 4, 5])
         self.assertEqual(str(hand), "1, 2, 3, 4, 5")
-        
+
 
     def test_hand_to_list(self):
         """Test if hand creates an object storing 5 dices.
@@ -38,6 +38,4 @@ class TestDie(unittest.TestCase):
 
         hand = Hand()
         self.assertListEqual(hand.to_list(), [1, 2, 4, 1, 5])
-
-
     

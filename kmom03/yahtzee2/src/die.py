@@ -44,7 +44,7 @@ class Die:
         random_number = randint(Die.MIN_ROLL_VALUE, Die.MAX_ROLL_VALUE)
         self._value = random_number
         return self._value
-    
+
     def __eq__(self, other):
         """If Die or INT == other, return True, else False"""
         if isinstance(other, Die):

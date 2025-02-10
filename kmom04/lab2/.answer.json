@@ -1,0 +1,22 @@
+{
+    "details": "Generated for kroh24 at 2025-02-06 20:31:20.",
+    "key": "21f557b505249f8d2d562caa07d91e92",
+    "summary": {
+        "questions": 4,
+        "points": 8,
+        "pass": 8.0,
+        "passdistinct": 8.0
+    },
+    "points": {
+        "1.1": 2,
+        "1.2": 2,
+        "1.3": 2,
+        "1.4": 2
+    },
+    "answers": {
+        "1.1": "619172-0731",
+        "1.2": "Name: Zimba SSN: 619172-0731 Address: Imre Vansterland Tear",
+        "1.3": "Name: Buster SSN: 619172-0731 Courses: webapp, ramverk1, linux",
+        "1.4": 3.5
+    }
+}

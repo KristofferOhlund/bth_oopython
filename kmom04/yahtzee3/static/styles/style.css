@@ -1,0 +1,26 @@
+body {
+    padding-top: 4em;
+    padding-bottom: 2em;
+}
+
+img{
+
+    height: 10%;
+    width: 10%;
+}
+
+.yahtzee {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between
+}
+
+.table {
+    width: 20vw;
+}
+
+.alert {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+}

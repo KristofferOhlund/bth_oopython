@@ -1,10 +1,10 @@
 
 
 
-<form action="/roll" method="post">
+<form action="{{url_for('roll')}}" method="post">
     {% for dice in hand.dice %}
         <label for={{dice}}><img src="{{ url_for('static', filename='img/' + dice.get_name() + '.png') }}" alt="Tärning" width="256px"></label>
-        <input type="checkbox" name="checkbox" value={{loop.index0}}><br>
+        <input type="checkbox" name="checkbox" value={{loop.index0}}>
     {% endfor %}
     {% if "hand" not in session %}
         <button type="submit" class="btn btn-success btn-lg btn-block">Starta spelet!</button>

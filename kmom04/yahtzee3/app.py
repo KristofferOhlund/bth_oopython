@@ -101,7 +101,6 @@ def reset():
     for key in list(session.keys()):
         session.pop(key)
     #_ = [session.pop(key) for key in list(session.keys())]
-    print(session)
     return redirect(url_for("main"))
 
 

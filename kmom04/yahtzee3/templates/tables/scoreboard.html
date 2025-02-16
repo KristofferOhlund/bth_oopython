@@ -5,7 +5,7 @@
     Din poäng: {{ score.get_total_points() }}
     {% endif %}
 </h2>
-<form action="/addpoints", method="POST">
+<form action="{{url_for('addpoints')}}", method="POST">
 <table class="table">
     <thead>
         <tr>

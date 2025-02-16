@@ -19,8 +19,19 @@ img{
     width: 20vw;
 }
 
+.row {
+    width: 50%;
+}
+
 .alert {
     width: 50%;
     margin: 0 auto;
     text-align: center;
+}
+
+label {
+    display: inline;
+}
+.btn {
+    width: 70%;
 }

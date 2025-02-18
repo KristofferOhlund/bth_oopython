@@ -1,0 +1,12 @@
+<!--.html filer och dynamiska filer som ska servas ska ligga i template -->
+
+{% include 'header.html' %}
+
+<div class="container" role="main">
+    <div class="page-header">
+        <h1>Välkommen till vår about page</h1>
+        <p>Vi heter {{ name }}, {{ name_k }} och dessa är våra akronymer {{ akronym }}, {{ akronym_k }}</p>        
+    </div>
+</div>
+
+{% include 'footer.html' %}

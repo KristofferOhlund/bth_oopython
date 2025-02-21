@@ -1,0 +1,37 @@
+{% include 'header.html' %}
+
+<div class="container">
+    <form action="{{url_for('remove_entry')}}" , method="POST">
+        <table class="table">
+            <legend><h2>Det finns totalt {{ leaderboard.entries.size()}} registreringar.</h2></legend>
+            <thead>
+                <tr>
+                    <th>Chose</th>
+                    <th>Play</th>
+                    <th>Points</th>                
+                </tr>
+            </thead>
+            <tbody>
+                {% for index in range(leaderboard.entries.size()) %}
+                {% set name, points = leaderboard.entries.get(index) %}
+                <tr>
+                    <td><input type="radio" name="radio" value="{{loop.index0}}"><br></td>
+                    <td>{{ name }}</td>
+                    <td>{{ points }}</td>
+                </tr>
+                {% endfor %}
+                {# {% for player, points in leaderboard.entries.print_list() %}
+                <tr>
+                    <td><input type="radio" name="radio" value="{{loop.index0}}"><br></td>
+                    <td>{{ player }}</td>
+                    <td>{{ points }}</td>
+                </tr>
+                {% endfor %} #}
+            </tbody>
+        </table>
+        {% if leaderboard.entries.size() != 0 %}
+        <button type="submit" class="btn btn-success btn-lg btn-block">Ta bort entry</button>
+        {% endif %}
+    </form>
+
+</div>

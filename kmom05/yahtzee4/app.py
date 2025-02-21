@@ -10,6 +10,7 @@ from flask import (Flask, render_template, request,
                    redirect, url_for, session, flash)
 from src.hand import Hand
 from src.scoreboard import Scoreboard
+from src.leaderboard import Leaderboard
 
 
 app = Flask(__name__)
@@ -85,6 +86,39 @@ def randomhand():
     """Creates a new random hand after a rule has been chosen."""
     session["hand"] = Hand().to_list()
     return redirect(url_for("main"))
+
+
+@app.route("/highscore")
+def highscore():
+    """Show current highscore"""
+    lb = Leaderboard().load()
+    return render_template("tables/leaderboard.html", leaderboard=lb)
+
+
+@app.route("/add_highscore", methods=["POST"])
+def add_highscore():
+    """Add points to leaderboard"""
+    name = request.form.get("namn")
+    points = int(request.form.get("points"))
+
+    lb = Leaderboard().load()
+    lb.add_entry(name, points)
+    lb.save()
+
+    return redirect(url_for("highscore"))
+
+
+@app.route("/remove_entry", methods=["POST"])
+def remove_entry():
+    """Remove entry form leaderboard"""
+
+    index = int(request.form.get("radio"))
+    print(f"Jag skickades i form {index}")
+    lb = Leaderboard().load()
+    lb.remove_entry(index)
+    lb.save()
+
+    return redirect(url_for("reset"))
 
 
 @app.route("/about")

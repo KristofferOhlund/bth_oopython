@@ -1,0 +1,6 @@
+<form action="{{url_for('add_highscore')}}" method="POST">
+    <label for="inputText">Fyll i ditt namn:</label><br><br>
+    <input type="text" id="inputText" name="namn" required><br><br>
+    <input type="text" id="inputText" name="points" value="{{score.get_total_points()}}" hidden>
+    <button type="submit">Spara highscore</button>
+</form>

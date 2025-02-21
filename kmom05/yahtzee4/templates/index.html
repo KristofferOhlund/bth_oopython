@@ -12,6 +12,7 @@
         {% if score.finished() %}
         <div class="alert alert-success" role="alert">
             Grattis! Spelet är slut, du fick {{ score.get_total_points() }} poäng!
+            {% include './forms/highscore.html' %}
         </div>
         {% endif %}
 

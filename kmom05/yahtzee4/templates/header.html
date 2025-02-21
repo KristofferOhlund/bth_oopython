@@ -34,6 +34,7 @@
                     <li {% if request.path=="/" %} class="active" {% endif %}><a href="{{ url_for('main') }}">Yatzee R&K</a></li>
                     <li {% if request.path=="/about" %} class="active" {% endif %}><a href="{{ url_for('about') }}">About us</a></li>
                     <li {% if request.path=="/reset" %} class="active" {% endif %}><a href="{{ url_for('reset') }}">Reset</a></li>
+                    <li {% if request.path=="/reset" %} class="active" {% endif %}><a href="{{ url_for('highscore') }}">Highscore</a></li>
                 </ul>
             </div>
         </div>

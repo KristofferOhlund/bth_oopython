@@ -39,11 +39,12 @@ class BankAccount:
     def __add__(self, other):
         return self._balance + other._balance # summerar _balans från två instanser
     
-    def __add__(self, other):
+    def __sub__(self, other):
         return self._balance - other._balance # visar self._balance - other._balance
     
-    def __iadd(self, other):
-        return self._balance += other._balance # uppdaterar värdet
+    def __iadd__(self, other):
+        self._balance += other._balance   # uppdaterar värdet
+        return self
     
     # det finns specialmetoder för alla operatorer
 

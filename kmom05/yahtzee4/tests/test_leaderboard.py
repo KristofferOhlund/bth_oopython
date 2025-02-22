@@ -16,9 +16,9 @@ class TestDie(unittest.TestCase):
     def setUp(self):
         """Setup """
         self.ul = UnorderedList()
-        self.ul.append("one")
-        self.ul.append("two")
-        self.ul.append("three")
+        self.ul.append('one')
+        self.ul.append('two')
+        self.ul.append('three')
 
 
     def test_get_exception(self):
@@ -47,7 +47,7 @@ class TestDie(unittest.TestCase):
 
     def test_remove_value(self):
         """ Test leaderboard if exception is raised when remove is
-        used on a value that does nt exists"""
+        used on a value that does not exists"""
+
         self.ul.remove("three")
-        lst = iter(self.ul.entries)
-        self.assertListEqual(lst, ["one, two"])
+        self.assertListEqual(self.ul.print_list(), ["one", "two"])

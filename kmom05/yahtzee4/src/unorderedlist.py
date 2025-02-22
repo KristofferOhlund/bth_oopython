@@ -130,15 +130,17 @@ class UnorderedList:
 
     def print_list(self):
         """Print all values in self._head"""
+        values = []
         if self._head is not None:
             current = self._head
             while current.data:
                 print(current.data)
+                values.append(current.data)
                 if current.has_next():
                     current = current.next
                 else:
                     break
-
+        return values
 
     def __str__(self):
         """Return string representation of the UnorderedList object"""

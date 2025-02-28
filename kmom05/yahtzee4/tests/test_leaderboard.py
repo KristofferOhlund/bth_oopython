@@ -16,9 +16,10 @@ class TestDie(unittest.TestCase):
     def setUp(self):
         """Setup """
         self.ul = UnorderedList()
-        self.ul.append('one')
-        self.ul.append('two')
-        self.ul.append('three')
+        self.ul.append('A')
+        self.ul.append('B')
+        self.ul.append('C')
+        self.ul.append('D')
 
 
     def test_get_exception(self):
@@ -30,12 +31,12 @@ class TestDie(unittest.TestCase):
 
     def test_get_value(self):
         """ Test leaderboard wether a value is returned when value exists. """
-        self.assertEqual(self.ul.get(0), "one")
+        self.assertEqual(self.ul.get(0), "A")
 
 
     def test_get_value_2(self):
         """ Test leaderboard wether a value is returned when value exists. """
-        self.assertEqual(self.ul.get(2), "three")
+        self.assertEqual(self.ul.get(2), "C")
 
 
     def test_remove_exception(self):
@@ -45,9 +46,34 @@ class TestDie(unittest.TestCase):
             self.ul.remove("farfar")
 
 
-    def test_remove_value(self):
+    def test_remove_first_value(self):
+        """ Test leaderboard if remove method removes the correct value 
+        when index is 0 """
+
+        self.ul.remove("A")
+        list_values = []
+        for idx in range(self.ul.size()):
+            list_values.append(self.ul.get(idx))
+        self.assertListEqual(list_values, ["B", "C", "D"])
+
+
+    def test_remove_last_value(self):
+        """ Test leaderboard if remove method removes the correct value 
+        when index is is -1 """
+
+        self.ul.remove("D")
+        list_values = []
+        for idx in range(self.ul.size()):
+            list_values.append(self.ul.get(idx))
+        self.assertListEqual(list_values, ["A", "B", "C"])
+
+
+    def test_remove_middle_value(self):
         """ Test leaderboard if exception is raised when remove is
         used on a value that does not exists"""
 
-        self.ul.remove("three")
-        self.assertListEqual(self.ul.print_list(), ["one", "two"])
+        self.ul.remove("C")
+        list_values = []
+        for idx in range(self.ul.size()):
+            list_values.append(self.ul.get(idx))
+        self.assertListEqual(list_values, ["A", "B", "D"])

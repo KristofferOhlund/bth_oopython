@@ -35,9 +35,8 @@ class UnorderedList:
                 counter += 1
             if counter == index:
                 temp = current.next
-                current = Node(data)
+                current.data = Node(data).data
                 current.next = temp
-                self._head = current
             else:
                 raise MissingIndex ("Index finns inte")
         else:
@@ -46,37 +45,31 @@ class UnorderedList:
 
     def remove(self, data):
         """Remove node with same data, else raise MissingValue"""
-        remove_at_index = self.index_of(data) # Value exists at index
-        if remove_at_index is not None:
-            current = self._head
+        remove_index = self.index_of(data)
+        current = self._head
+        # remove first index
+        if remove_index == 0:
+            self._head = current.next
 
-            # Om första index ska bort
-            if remove_at_index == 0:
-                self._head = current.next
-
-            # Om sista index ska bort
-            elif remove_at_index == self.size() -1:
-                remove_at_index -= 1
-                counter = 0
-                while current.has_next() and counter < remove_at_index:
-                    current = current.next
-                    counter += 1
-
-                if counter == remove_at_index:
+        # remove last index
+        elif remove_index == self.size() -1:
+            limit = remove_index -1
+            counter = 0
+            while current.has_next():
+                current = current.next
+                counter += 1
+                if counter == limit:
                     current.next = None
 
-            # Om övriga index ska bort
-            else:
-                counter = 0
-                while current.has_next() and counter < remove_at_index:
-                    previous = current
-                    current = current.next
-                    counter += 1
-
-                if counter == remove_at_index:
-                    self._head = previous
-                    if self._head.has_next():
-                        self._head.next = current.next
+        # remove anything that isn't first or last
+        else:
+            counter = 0
+            while current.has_next():
+                previus = current
+                current = current.next
+                counter += 1
+                if counter == remove_index:
+                    previus.next = current.next
 
 
     def index_of(self, value):
@@ -85,7 +78,7 @@ class UnorderedList:
         if self._head is not None:
             current = self._head
             index = 0
-            while not self.check_equal(current.data, value):
+            while not current.data == value:
                 if current.has_next():
                     current = current.next
                     index += 1
@@ -93,11 +86,6 @@ class UnorderedList:
                     raise MissingValue(f"'{value}' finns inte i listan, index of")
             return index
         raise MissingValue(f"{value} finns inte i listan")
-
-
-    def check_equal(self, answer, value):
-        """Return answer == value"""
-        return answer == value
 
 
     def size(self):
@@ -130,27 +118,31 @@ class UnorderedList:
 
     def print_list(self):
         """Print all values in self._head"""
-        values = []
         if self._head is not None:
             current = self._head
-            while current.data:
+            print(current.data)
+            while current.has_next():
+                current = current.next
                 print(current.data)
-                values.append(current.data)
-                if current.has_next():
-                    current = current.next
-                else:
-                    break
-        return values
+
 
     def __str__(self):
         """Return string representation of the UnorderedList object"""
-        return str(self._head)
+        presentation = ""
+        current = self._head
+        while current.has_next():
+            presentation += current.data
+            current = current.next
+        presentation += current.data
+        return presentation
+
 
 
 if __name__ == "__main__":
     ul = UnorderedList()
-    ul.append("one")
-    ul.append("two")
-    ul.append("three")
-    ul.append('(magnus, 44)')
-    print(ul.index_of("(magnus, 44)"))
+    ul.append("A")
+    ul.append("B")
+    ul.append("C")
+    ul.append("D")
+    x = str(ul)
+    print(x)

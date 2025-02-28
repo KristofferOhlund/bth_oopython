@@ -1,0 +1,30 @@
+<h2>
+    {% if score.finished() %}
+    Spelet slut! {{ score.get_total_points() }} poäng
+    {% else %}
+    Din poäng: {{ score.get_total_points() }}
+    {% endif %}
+</h2>
+<form action="{{url_for('addpoints')}}" , method="POST">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Chose</th>
+                <th>worth</th>
+                <th>Rule</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rule in score.get_ordered_rules %}
+            <tr>
+                <td><input type="radio" name="radio" value="{{rule}}"><br></td>
+                <td>{{ score.show_potential_points(rule, hand) }}</td>
+                <td>{{ rule }}</td>
+                <td>{{ score.game_data[rule] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-success btn-lg btn-block">Använd regel</button>
+</form>

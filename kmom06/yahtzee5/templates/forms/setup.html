@@ -1,0 +1,6 @@
+{% include './header.html'%}
+<form action="{{url_for('add_players')}}" method="POST">
+    <label for="players">Välj antal spelare:</label><br><br>
+    <input type="number" id="players" name="players" required><br><br>
+    <button class="btn btn-success btn-lg btn-block" type="submit" >Starta spelet!</button>
+</form>

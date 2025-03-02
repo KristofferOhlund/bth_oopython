@@ -11,52 +11,23 @@ def insertion_sort(lst:UnorderedList):
             j -= 1
         lst.set(j, current_value) 
 
-def recursive_insertion(lst, n):
-    if n <= 1:
-        return
-
-    # Recursivt sortera för de första n-1 elementen
-    recursive_insertion(lst, n - 1)
-
-    current_value = lst[n - 1]
-    current_points = current_value["points"]  # "points" för sortering. Vet inte om detta är ok eller inte?
-    
-    j = n - 2
-    # Flytta större element framåt
-    while j >= 0:
-        prev_value = lst[j]
-        prev_points = prev_value["points"]  # Jämför med "points"
-
-        if prev_points < current_points:  # Om den föregående punkten är mindre, flytta
-            lst[j + 1] = prev_value
-        else:
-            break  # Stoppa om vi har hittat rätt plats
-
-        j -= 1
-
-    # Placera de nuvarande värdet på rätt plats
-    lst[j + 1] = current_value
-
-
-#  "utan anpassning till points"
-# def recursive_insertion(lst, n):
-#     if n <= 1:
-#         return lst
-
-#     recursive_insertion(lst, n - 1)  
-
-#     current_value = lst[n - 1]  
-#     j = n - 2 
-
-#     while j >= 0 and lst[j] > current_value:
-#         lst[j + 1] = lst[j]  
-#         j -= 1
-
-
-#     lst[j + 1] = current_value
-
-#     return lst
-
+# denna funkar, bytte ut [ ] mot paranteser och
+# satte j att vara > 0 istället för >=
+# Fattar dock inte hur det funkar, ren chansning
+# Vi måste sortera på tuples (första värdet)
+def recursive_insertion(lst: UnorderedList, n):
+    """ Sort lst recursivly, returns -1 if list i empty"""
+    if lst:
+        if n == 0:
+            return lst
+        recursive_insertion(lst, n - 1)
+        j = n - 1
+        current_value = lst.get(n - 1)
+        while j > 0 and current_value < lst.get(j - 1):
+            lst.set(j, lst.get(j - 1))
+            j -= 1
+        lst.set(j, current_value)
+    return -1
 
 #detta funkar, men får det inte att funka med topplistan..
 leaderboard = [
@@ -68,8 +39,8 @@ leaderboard = [
 ]
 
 # Sortera listan
-size = len(leaderboard)  # storleken på listan dvs "n" i detta fall.
-recursive_insertion(leaderboard, size)
+# size = len(leaderboard)  # storleken på listan dvs "n" i detta fall.
+# print(recursive_insertion(leaderboard, size))
 
-# Utskrift efter sortering
-print(f"Sorted Leaderboard:{leaderboard}")
+# # Utskrift efter sortering
+# print(f"Sorted Leaderboard:{leaderboard}")

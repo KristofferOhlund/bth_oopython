@@ -11,7 +11,7 @@
         {# Om spelet är slut #}
         {% if score.finished() %}
         <div class="alert alert-success" role="alert">
-            Grattis! Spelet är slut, du fick {{ score.get_total_points() }} poäng!
+            Grattis! Spelare {{spelare}} vann, du fick {{ score.get_total_points() }} poäng!
             {% include './forms/highscore.html' %}
         </div>
         {% endif %}
@@ -24,7 +24,7 @@
             </div>
             {% endif %}
         {% endwith %}
-        <h2>Spelare: {{player}}</h2>
+        <h2>Spelare: {{spelare}}</h2>
         <div class="yahtzee">
             <div class="row">
                 {% include './forms/roll_dice_form.html'%}

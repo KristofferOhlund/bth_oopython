@@ -12,6 +12,9 @@ from src.hand import Hand
 from src.scoreboard import Scoreboard
 from src.leaderboard import Leaderboard
 from src.queue import Queue
+from src.sort import recursive_insertion
+
+
 
 # Skapar en dictionary för varje spelare
 # varje dictionary läggs i Queue klassen.
@@ -32,7 +35,7 @@ def add_players():
     """ Add number of players to the session """
     number = int(request.form.get("players"))
     queue = Queue()
-    
+
     # add players to queue list
     for player in range(number):
         queue.enqueue({
@@ -50,8 +53,8 @@ def add_players():
 def main():
     """ Main route """
     if "queue" not in session:
-         return redirect(url_for("setup"))
-    
+        return redirect(url_for("setup"))
+
     queue_obj = get_queue_object().peek()
     hand = Hand(queue_obj["hand"])
     scoreboard = Scoreboard().from_dict(queue_obj["scoreboard"])
@@ -79,7 +82,7 @@ def roll():
             reroll_index[index] = int(string)
         # kasta tärningar
         hand.roll(reroll_index)
-        
+
         # spara nya hand objektet och rolls i queue object
         current_queue_obj["hand"] = Hand().to_list()
         current_queue_obj["rolls"] = current_queue_obj["rolls"] + 1
@@ -123,12 +126,12 @@ def next_player():
     """ Check if there is a winner, else
      queue the next player """
     if not game_finished():
-        queue = get_queue_object() 
+        queue = get_queue_object()
         current_queue = queue.peek()  # nuvarande spelare
         queue.dequeue()
         queue.enqueue(current_queue)
         session["queue"] = queue.to_list()
-        return redirect(url_for("main"))
+    return redirect(url_for("main"))
 
 
 def game_finished():
@@ -148,7 +151,12 @@ def game_finished():
 @app.route("/highscore")
 def highscore():
     """Show current highscore"""
+
     lb = Leaderboard().load()
+
+    # Sortera med recursive_insertion
+    recursive_insertion(lb.entries, lb.entries.size())
+
     return render_template("tables/leaderboard.html", leaderboard=lb)
 
 
@@ -159,7 +167,7 @@ def add_highscore():
     points = int(request.form.get("points"))
 
     lb = Leaderboard().load()
-    lb.add_entry(name, points)
+    lb.add_entry(points, name)
     lb.save()
 
     return redirect(url_for("highscore"))

@@ -1,5 +1,6 @@
-from src.unorderedlist import UnorderedList
+"module for sorting"
 
+from src.unorderedlist import UnorderedList
 
 def insertion_sort(lst:UnorderedList):
     """ Sorting unorderedlist with insertions sort """
@@ -9,7 +10,7 @@ def insertion_sort(lst:UnorderedList):
         while j > 0 and current_value < lst.get(j - 1):
             lst.set(j, lst.get(j - 1))  # Flyttar lättare element framåt
             j -= 1
-        lst.set(j, current_value) 
+        lst.set(j, current_value)
 
 # denna funkar, bytte ut [ ] mot paranteser och
 # satte j att vara > 0 istället för >=
@@ -27,20 +28,6 @@ def recursive_insertion(lst: UnorderedList, n):
             lst.set(j, lst.get(j - 1))
             j -= 1
         lst.set(j, current_value)
-    return -1
-
-#detta funkar, men får det inte att funka med topplistan..
-leaderboard = [
-    {"name": "Rubi", "points": 28},
-    {"name": "asdasd", "points": 51},
-    {"name": "Kingen", "points": 58},
-    {"name": "Test1", "points": 90},
-    {"name": "test4", "points": 18}
-]
-
-# Sortera listan
-# size = len(leaderboard)  # storleken på listan dvs "n" i detta fall.
-# print(recursive_insertion(leaderboard, size))
-
-# # Utskrift efter sortering
-# print(f"Sorted Leaderboard:{leaderboard}")
+    else:
+        return -1
+    return lst

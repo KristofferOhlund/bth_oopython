@@ -37,10 +37,9 @@ class Queue:
         for player in self._items:
             queue.append(player)
         return queue
-    
+
 
     @classmethod
     def from_session(cls, data):
         """ Create a queue instance from current data """
         return cls(data)
-

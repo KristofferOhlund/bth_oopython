@@ -18,19 +18,19 @@ class Leaderboard:
         """Save to filename"""
         prepare_json = []
         for value in range(self.entries.size()):
-            name, points = self.entries.get(value)
+            points, name = self.entries.get(value)
             prepare_json.append({
-                "name": name,
-                "points": points
+                "points": points,
+                "name": name
             })
 
         with open(filename, "w", encoding="utf-8") as writer:
             json.dump(prepare_json, writer, indent=4)
 
 
-    def add_entry(self, name:str, score:int):
+    def add_entry(self, score:int, name:str,):
         """Add entry to leaderboard"""
-        self.entries.append((name, score))
+        self.entries.append((score, name))
 
 
     def remove_entry(self, index:int):
@@ -49,6 +49,6 @@ class Leaderboard:
         list_of_tuple = []
         if json_data:
             for value in json_data:
-                list_of_tuple.append((value["name"], value["points"]))
+                list_of_tuple.append((value["points"], value["name"]))
 
         return cls(list_of_tuple)

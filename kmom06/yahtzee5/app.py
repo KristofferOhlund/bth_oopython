@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-My second Flask app
+My first Flask app
 """
 # Importera relevanta moduler
 import os
@@ -12,6 +12,15 @@ from src.hand import Hand
 from src.scoreboard import Scoreboard
 from src.leaderboard import Leaderboard
 from src.queue import Queue
+from src.manager import Manager
+from src.sort import recursive_insertion
+
+# MANAGER KLASS
+# Varje spelare är en dictionary enligt
+# { "player": player,
+# "hand": Hand().to_list(),
+# "scoreboard": Scoreboard().game_data,
+# "rolls": 0 }
 
 
 app = Flask(__name__)
@@ -23,70 +32,84 @@ def setup():
     """ Setup number of players. """
     return render_template("forms/setup.html")
 
+
 @app.route("/add_players", methods=["POST"])
 def add_players():
     """ Add number of players to the session """
     number = int(request.form.get("players"))
     queue = Queue()
 
+    # list of player objects
+    manager_objects = []
+
     # add players to queue list
-    hands = []
-    scoreboards = []
-    rolls = []
     for player in range(number):
-        hands.append(Hand().to_list())
-        scoreboards.append(Scoreboard().game_data)
-        rolls.append(0)
+        manager_objects.append({
+            "player": player,
+            "hand": Hand().to_list(),
+            "scoreboard": Scoreboard().game_data,
+            "rolls": 0
+        })
         queue.enqueue(player)
 
-    session["hands"] = hands
-    session["scoreboards"] = scoreboards
-    session["rolls"] = rolls
+    # add manager as a list of objects
+    session["manager"] = Manager(manager_objects).to_list()
+
     session["queue"] = queue.to_list()
     return redirect(url_for("main"))
-
 
 
 @app.route("/")
 def main():
     """ Main route """
-    if "hands" not in session:
+    if "manager" not in session:
         return redirect(url_for("setup"))
-    queue_index = Queue.from_session(session["queue"]).peek()
-    hand = Hand(session['hands'][queue_index])
-    print(f"hand i main: {session['hands']}")
-    score = Scoreboard(session["scoreboards"][queue_index])
-    return render_template("index.html", player=queue_index, hand=hand, score=score)
+
+    manager = Manager.from_data(session["manager"]).to_list()
+    queue_index = get_player_queue().peek()
+
+    # show players hand and scoreboard
+    hand = Hand(manager[queue_index]["hand"])
+    scoreboard = Scoreboard().from_dict(manager[queue_index]["scoreboard"])
+    spelare = manager[queue_index]["player"]
+
+    return render_template("index.html", spelare=spelare, hand=hand, score=scoreboard)
 
 
 @app.route("/roll", methods=["POST"])
 def roll():
     """ Roll dices with int from checkbox """
 
-    player_index = get_player_queue()
-    session["rolls"][player_index] = session["rolls"][player_index] +1
+    player_index = get_player_queue().peek()
+    manager = Manager.from_data(session["manager"])
+    player_object = manager.get_player(player_index)
 
-    if session["rolls"][player_index] <= 2:
+    # create hand from session
+    hand = Hand(player_object["hand"])
+    rolls = player_object["rolls"]
+
+
+    if rolls < 2:
         # Gör request values till int
         reroll_index = request.form.getlist("checkbox")
         for index, string in enumerate(reroll_index):
             reroll_index[index] = int(string)
-
-        # Skapa nytt hand objekt baserat på befintliga tärningar
-        hand = Hand(session["hands"][player_index])
+        # kasta tärningar och uppdatera rolls
         hand.roll(reroll_index)
-        # flask märker inte att vi ändrar i en inbäddad struktur (lista)
+        player_object["rolls"] = player_object["rolls"] +1
+
+        # updatera manager och spara i session
+        manager.update_key_on_index(player_index, "hand", hand.to_list())
+        session["manager"] = manager.to_list()
         session.modified = True
-        # spara hand.to_list i session
-        session["hands"][player_index] = hand.to_list()
     else:
         flash("Du har kastat 2 gånger, välj en regel!", "info")
     return redirect(url_for("main"))
 
 
 def get_player_queue():
-    """ metod for returning the current queue index """
-    return Queue.from_session(session["queue"]).peek()
+    """ metod for returning the Queue object """
+    return Queue.from_session(session["queue"])
 
 
 @app.route("/addpoints", methods=["POST"])
@@ -94,71 +117,69 @@ def addpoints():
     """ Apply points to rule """
     # get rule name attribute value from form
     rule = request.form.get("radio")
-    player = get_player_queue()
+
+    player_index = get_player_queue().peek()
+    manager = Manager.from_data(session["manager"])
+    player_object = manager.get_player(player_index)
+
+    # create hand from session
+    hand = Hand(player_object["hand"])
+    scoreboard = Scoreboard().from_dict(player_object["scoreboard"])
+    rolls = player_object["rolls"]
 
     if rule:
         try:
-            hand = Hand(session["hands"][player])
-            scoreboard = Scoreboard(session["scoreboards"][player])
             scoreboard.add_points(rule, hand)
-            session["score"] = scoreboard.game_data
-            session["hands"][player] = hand.to_list()
-            # reset number of rolls
-            session["rolls"][player] = 0
+            new_obj = {
+                "player": player_index,
+                "hand": Hand().to_list(),
+                "scoreboard": scoreboard.game_data,
+                "rolls": rolls +1 
+            }
+            manager.replace_obj_at_index(player_index, new_obj)
+            # update session
+            session["manager"] = manager.to_list()
             session.modified = True
-        except ValueError as _:
-            flash("Regel har redan blivit använd!")
+        except ValueError as e:
+            flash(str(e))
+            return redirect(url_for("main"))
     else:
         flash("Du har inte valt en regel!")
+        return redirect(url_for("main"))
 
     return next_player()
 
 
 def next_player():
-    """ Update queue """
-    print("next summoned")
-    current_queue = get_player_queue()
-    queue = Queue(session["queue"])
-    queue.dequeue()
-    queue.enqueue(current_queue)
+    """ Check if there is a winner, else
+     queue the next player """
+    manager = Manager.from_data(session["manager"])
+    all_done = manager.all_done()
+    if not all_done:
+        current_queue = get_player_queue().peek()
+        queue = Queue(session["queue"])
+        queue.dequeue()
+        queue.enqueue(current_queue)
+        return redirect(url_for("main"))
 
-    return redirect(url_for("main"))
-# @app.route("/addpoints", methods=["POST"])
-# def addpoints():
-#     """ Apply points to rule """
-#     # get rule name attribute value from form
-#     rule = request.form.get("radio")
+    # få spelare med mest poäng
+    winner = manager.get_winner()
+    spelare = winner["player"]
+    hand = Hand(winner["hand"])
+    scoreboard = Scoreboard.from_dict(winner["scoreboard"])
 
-#     if rule:
-#         try:
-#             hand = Hand(session["hand"])
-#             scoreboard = Scoreboard(session["score"])
-#             scoreboard.add_points(rule, hand)
-#             session["score"] = scoreboard.game_data
-#             session["hand"] = hand.to_list()
-#             # reset number of rolls
-#             session["rolls"] = 0
-#         except ValueError as _:
-#             flash("Regel har redan blivit använd!")
-#     else:
-#         flash("Du har inte valt en regel!")
-
-#     return redirect(url_for("randomhand"))
-
-
-@app.route("/randomhand")
-def randomhand():
-    """Creates a new random hand after a rule has been chosen."""
-    player = get_player_queue()
-    session["hands"][player] = Hand().to_list()
-    session.modified = True
-    return redirect(url_for("main"))
+    return render_template("index.html", spelare=spelare, hand=hand, score=scoreboard)
 
 
 @app.route("/highscore")
 def highscore():
     """Show current highscore"""
+
     lb = Leaderboard().load()
+
+    # Sortera med recursive_insertion
+    recursive_insertion(lb.entries, lb.entries.size())
+
     return render_template("tables/leaderboard.html", leaderboard=lb)
 
 
@@ -169,7 +190,7 @@ def add_highscore():
     points = int(request.form.get("points"))
 
     lb = Leaderboard().load()
-    lb.add_entry(name, points)
+    lb.add_entry(points, name)
     lb.save()
 
     return redirect(url_for("highscore"))
@@ -180,7 +201,6 @@ def remove_entry():
     """Remove entry form leaderboard"""
 
     index = int(request.form.get("radio"))
-    print(f"Jag skickades i form {index}")
     lb = Leaderboard().load()
     lb.remove_entry(index)
     lb.save()

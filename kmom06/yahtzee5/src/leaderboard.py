@@ -35,7 +35,9 @@ class Leaderboard:
 
     def remove_entry(self, index:int):
         """Remove entry from leaderbaord"""
+       # print("index from form in leaderboard", index)
         data = self.entries.get(index)
+       # print("data returned from entries.get", data)
         self.entries.remove(data)
 
 

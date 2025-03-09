@@ -201,7 +201,10 @@ def remove_entry():
     """Remove entry form leaderboard"""
 
     index = int(request.form.get("radio"))
+    print("index från form", index)
     lb = Leaderboard().load()
+    sorted_points = recursive_insertion(lb.entries, lb.entries.size())
+    lb.entries = sorted_points
     lb.remove_entry(index)
     lb.save()
 

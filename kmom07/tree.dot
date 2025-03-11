@@ -1,0 +1,71 @@
+digraph {
+graph [
+  nodesep=0.25,
+  ranksep=0.3,
+  splines=line
+];
+node [
+  style=filled,
+  fillcolor=lightblue,
+  shape=circle,
+  fixedsize=true,
+  width=0.5
+];
+edge [
+  arrowsize=0.8,
+  color=black
+];
+
+140446370294224 [
+  label="6"
+];
+140446109929264 [
+  label="i1"
+  style="invis"
+];
+140446371767024 [
+  label="i2"
+  style="invis"
+];
+140446370294288 [
+  label="8"
+];
+140446377225328 [
+  label="i3"
+  style="invis"
+];
+140446374757040 [
+  label="i4"
+  style="invis"
+];
+140446109942768 [
+  label="i5"
+  style="invis"
+];
+140446370294224 -> 140446109929264 [
+  style="invis"
+  weight="5"
+];
+140446370294224 -> 140446371767024 [
+  style="invis"
+  weight="5"
+];
+140446370294288 -> 140446370294224 [
+
+];
+140446370294288 -> 140446377225328 [
+  style="invis"
+  weight="5"
+];
+140446370294288 -> 140446374757040 [
+  style="invis"
+  weight="5"
+];
+140446370294288 -> 140446109942768 [
+  style="invis"
+  weight="5"
+];
+140446370294224 -> 140446370294288 [
+
+];
+}
